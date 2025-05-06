@@ -1,0 +1,45 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+env/
+venv/
+ENV/
+
+# Python-specific
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+
+# Flask-related
+instance/
+*.db
+*.sqlite3
+
+# Alembic
+migrations/__pycache__/
+migrations/versions/__pycache__/
+
+# Docker
+*.pid
+*.tgz
+*.gz
+*.tar
+*.bak
+*.swp
+.dockerignore
+Dockerfile~
+docker-compose.override.yml
+pgdata/
+
+# VS Code
+.vscode/
+
+# Mac & system files
+.DS_Store
+Thumbs.db

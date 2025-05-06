@@ -1,0 +1,131 @@
+# version: "3.9"
+
+# services:
+#   web:
+#     build: .
+#     command: flask run --host=0.0.0.0
+#     volumes:
+#       - .:/app
+#     ports:
+#       - "5000:5000"
+#     env_file: .env
+#     depends_on:
+#       - db
+#       - redis
+
+#   db:
+#     image: postgres:14
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: postgres
+#       POSTGRES_DB: checkout_db
+#     ports:
+#       - "5432:5432"
+
+#   redis:
+#     image: redis:6
+
+#   worker:
+#     build: .
+#     command: celery -A worker.celery worker --loglevel=info
+#     volumes:
+#       - .:/app
+#     env_file: .env
+#     depends_on:
+#       - redis
+#       - db
+
+# version: "3.9"
+
+# services:
+#   redis:
+#     image: redis:7
+#     ports:
+#       - "6379:6379"
+
+#   db:
+#     image: postgres:15
+#     restart: always
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: admin
+#       POSTGRES_DB: checkout_db
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+
+#   backend:
+#     build: .
+#     command: flask run --host=0.0.0.0 --port=5000
+#     volumes:
+#       - .:/app
+#     environment:
+#       - FLASK_APP=run.py
+#       - DATABASE_URL=postgresql://postgres:admin@db:5432/checkout_db
+#       - CELERY_BROKER_URL=redis://redis:6379/0
+#       - CELERY_RESULT_BACKEND=redis://redis:6379/0
+#     depends_on:
+#       - db
+#       - redis
+#     ports:
+#       - "5000:5000"
+
+#   worker:
+#     build: .
+#     command: celery -A worker.celery worker --loglevel=info
+#     volumes:
+#       - .:/app
+#     environment:
+#       - DATABASE_URL=postgresql://postgres:admin@db:5432/checkout_db
+#       - CELERY_BROKER_URL=redis://redis:6379/0
+#       - CELERY_RESULT_BACKEND=redis://redis:6379/0
+#     depends_on:
+#       - db
+#       - redis
+#       - backend
+
+# volumes:
+#   pgdata:
+
+version: "3.8"
+
+services:
+  backend:
+    build: .
+    container_name: order_backend
+    command: bash -c "flask db upgrade && celery -A worker.celery worker --loglevel=info & flask run --host=0.0.0.0"
+    volumes:
+      - .:/app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      - FLASK_APP=run.py
+      - FLASK_ENV=development
+      - DATABASE_URL=postgresql://postgres:admin@db:5432/checkout_db
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+
+  db:
+    image: postgres:14
+    container_name: order_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: checkout_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    container_name: order_redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  pgdata:

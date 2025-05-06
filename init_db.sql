@@ -1,0 +1,2 @@
+-- SQL schema initialization
+-- Define tables for cart, items, and checkout
