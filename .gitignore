@@ -3,43 +3,83 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Virtual environment
-.venv/
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
 env/
+.venv/
 venv/
-ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
 
-# Python-specific
-*.log
-*.pot
-*.pyc
-*.pyo
-*.pyd
+# PyInstaller
+*.manifest
+*.spec
 
-# Flask-related
-instance/
-*.db
-*.sqlite3
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
 
-# Alembic
-migrations/__pycache__/
-migrations/versions/__pycache__/
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
 
-# Docker
-*.pid
-*.tgz
-*.gz
-*.tar
-*.bak
-*.swp
-.dockerignore
-Dockerfile~
-docker-compose.override.yml
-pgdata/
+# PyCharm
+.idea/
 
 # VS Code
 .vscode/
 
-# Mac & system files
+# Jupyter
+.ipynb_checkpoints
+
+# Flask-related
+instance/
+.webassets-cache
+*.db
+*.sqlite3
+
+# Environment variables
+.env
+.env.*
+
+# Docker-related
+*.pid
+*.log
+Dockerfile~
+docker-compose.override.yml
+
+# Migrations
+migrations/versions/
+
+# Celery related
+celerybeat-schedule
+celerybeat.pid
+__pycache__/
+
+# System
 .DS_Store
 Thumbs.db
